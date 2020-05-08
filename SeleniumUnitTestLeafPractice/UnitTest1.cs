@@ -394,6 +394,34 @@ namespace SeleniumUnitTestLeafPractice
 
 
         }
+
+        [TestMethod]
+        public void AutoCompete()
+        {
+            webDriver.Navigate().GoToUrl("http://www.leafground.com/pages/autoComplete.html");
+            webDriver.FindElement(By.Id("tags")).SendKeys("Selenium");
+            Thread.Sleep(1000);
+            webDriver.FindElement(By.XPath("//li[@class='ui-menu-item']/div[text()='Selenium']")).Click();
+            Thread.Sleep(2000);
+            webDriver.Quit();
+        }
+
+        [TestMethod]
+        public void Download()
+        {
+            webDriver.Navigate().GoToUrl("http://www.leafground.com/pages/download.html");
+            
+            webDriver.FindElement(By.XPath("(//a[1])[2]")).Click();
+            //Thread.Sleep(2000);
+            webDriver.FindElement(By.XPath("//a[2]")).Click();
+            //Thread.Sleep(2000);
+            // webDriver.SwitchTo().Window(parentWindow);
+            webDriver.Navigate().Back();
+            //Thread.Sleep(2000);
+            webDriver.FindElement(By.XPath("//a[3]")).Click();
+            Thread.Sleep(2000);
+            webDriver.Quit();
+        }
     }
 }
 
