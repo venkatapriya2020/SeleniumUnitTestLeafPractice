@@ -11,6 +11,8 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
+using System.Windows.Forms;
+using System.Security.Policy;
 
 namespace SeleniumUnitTestLeafPractice
 {
@@ -20,9 +22,15 @@ namespace SeleniumUnitTestLeafPractice
         IWebDriver webDriver = new ChromeDriver();
 
         [TestMethod]
+        public void Edit()
+        {
+            webDriver.Navigate().GoToUrl("http://www.leafground.com/pages/Edit.html");
+
+        }
+        [TestMethod]
         public void ImageInteraction()
         {
-            
+
             webDriver.Navigate().GoToUrl("http://www.leafground.com/pages/Image.html");
 
             //Click on this image to go home page
@@ -31,8 +39,8 @@ namespace SeleniumUnitTestLeafPractice
 
             //Am I Broken Image?
             var imageDisplayed = webDriver.FindElement(By.XPath("//img[@src='../images/abcd.jpg']")).GetAttribute("naturalWidth");
-            
-            if(imageDisplayed!="0")
+
+            if (imageDisplayed != "0")
             {
                 Console.WriteLine("Image displayed");
             }
@@ -44,12 +52,12 @@ namespace SeleniumUnitTestLeafPractice
             //Click me using Keyboard or Mouse
             Actions action = new Actions(webDriver);
             webDriver.FindElement(By.XPath("//img[@src='../images/keyboard.png']"));
-            action.KeyDown(webDriver.FindElement(By.XPath("//img[@src='../images/keyboard.png']")), Keys.Control)
-               .Build()
-               .Perform();
+            //action.KeyDown(webDriver.FindElement(By.XPath("//img[@src='../images/keyboard.png']")),
+            //    Keys.Control)
+            //   .Build()
+            //   .Perform();
 
-            webDriver.Quit();
-         }
+        }
 
         [TestMethod]
         public void LearnListboxes()
@@ -57,9 +65,9 @@ namespace SeleniumUnitTestLeafPractice
             webDriver.Navigate().GoToUrl("http://www.leafground.com/pages/Dropdown.html");
 
             //Select training program using Index
-            IWebElement listItems1 =webDriver.FindElement(By.Id("dropdown1"));
+            IWebElement listItems1 = webDriver.FindElement(By.Id("dropdown1"));
             new SelectElement(listItems1).SelectByIndex(2);
-            
+
             //Select training program using Text
             IWebElement listItems2 = webDriver.FindElement(By.Name("dropdown2"));
             new SelectElement(listItems2).SelectByText("Selenium");
@@ -67,11 +75,11 @@ namespace SeleniumUnitTestLeafPractice
             //Select training program using Value
             IWebElement listItems3 = webDriver.FindElement(By.Name("dropdown3"));
             new SelectElement(listItems3).SelectByValue("4");
-            
+
 
             //Get the number of dropdown options
             IWebElement listItems4 = webDriver.FindElement(By.ClassName("dropdown"));
-            Console.WriteLine( new SelectElement(listItems4).Options.Count());
+            Console.WriteLine(new SelectElement(listItems4).Options.Count());
 
             //You can also use sendKeys to select
             IWebElement listItems5 = webDriver.FindElement(By.XPath("(//select)[5]"));
@@ -81,26 +89,26 @@ namespace SeleniumUnitTestLeafPractice
             IWebElement listItems6 = webDriver.FindElement(By.XPath("(//select)[6]"));
             new SelectElement(listItems6).SelectByValue("1");
             new SelectElement(listItems6).SelectByValue("2");
-           
+
             Thread.Sleep(2000);
 
             webDriver.Quit();
-            
+
         }
 
         [TestMethod]
         public void PlayWithRadioButtons()
         {
-           webDriver.Navigate().GoToUrl("http://www.leafground.com/pages/radio.html");
+            webDriver.Navigate().GoToUrl("http://www.leafground.com/pages/radio.html");
 
             //Are you enjoying the classes?
             webDriver.FindElement(By.XPath("//*[@id='yes']")).Click();
 
             //Find default selected radio button
-            bool radio1= webDriver.FindElement(By.XPath("//*[@for='Unchecked']")).Selected;
-            bool radio2= webDriver.FindElement(By.XPath("//*[@for='Checked']")).Selected;
-            
-            if(radio1==true)
+            bool radio1 = webDriver.FindElement(By.XPath("//*[@for='Unchecked']")).Selected;
+            bool radio2 = webDriver.FindElement(By.XPath("//*[@for='Checked']")).Selected;
+
+            if (radio1 == true)
             {
                 Console.WriteLine("Radio 1 is checked");
             }
@@ -110,7 +118,7 @@ namespace SeleniumUnitTestLeafPractice
             }
 
             //Select your age group (Only if choice wasn't selected)
-            if(!webDriver.FindElement(By.XPath("//div/input[@value='2']")).Selected)
+            if (!webDriver.FindElement(By.XPath("//div/input[@value='2']")).Selected)
             {
                 webDriver.FindElement(By.XPath("//div/input[@value='2']")).Click();
             }
@@ -127,14 +135,14 @@ namespace SeleniumUnitTestLeafPractice
             webDriver.FindElement(By.XPath("(//div/input[@type='checkbox'])[3]")).Click();
 
             //Confirm Selenium is checked
-            if(webDriver.FindElement(By.XPath("(//div/input[@type='checkbox'])[6]")).Selected)
+            if (webDriver.FindElement(By.XPath("(//div/input[@type='checkbox'])[6]")).Selected)
             {
                 Console.WriteLine("Selenium is selected");
             }
 
             //DeSelect only checked
-             webDriver.FindElement(By.XPath("(//div/input[@type='checkbox'])[8]")).Click();
-            
+            webDriver.FindElement(By.XPath("(//div/input[@type='checkbox'])[8]")).Click();
+
             //Select all below checkboxes
             webDriver.FindElement(By.XPath("(//div/input[@type='checkbox'])[9]")).Click();
             webDriver.FindElement(By.XPath("(//div/input[@type='checkbox'])[10]")).Click();
@@ -151,7 +159,7 @@ namespace SeleniumUnitTestLeafPractice
         [TestMethod]
         public void Tables()
         {
-            
+
             webDriver.Navigate().GoToUrl("http://www.leafground.com/pages/table.html");
 
             //Get the count of number of columns
@@ -165,7 +173,7 @@ namespace SeleniumUnitTestLeafPractice
             Console.WriteLine("The Total row Count is :" + totalRowCount);
 
             //Get the progress value of 'Learn to interact with Elements'
-            string text =  webDriver.FindElement(By.XPath("//table[@id='table_id']/tbody/tr/td[text()='Learn to interact with Elements']/../td[2]")).Text;
+            string text = webDriver.FindElement(By.XPath("//table[@id='table_id']/tbody/tr/td[text()='Learn to interact with Elements']/../td[2]")).Text;
             Console.WriteLine(text);
 
             //Check the vital task for the least completed progress.
@@ -173,17 +181,17 @@ namespace SeleniumUnitTestLeafPractice
                 (By.XPath("//table[@id='table_id']/tbody/tr/td[2]")).ToList();
 
             List<int> count = new List<int>();
-            
+
             foreach (var item in fetchProgress)
             {
                 int trimItem = Convert.ToInt32(item.Text.Trim('%'));
                 count.Add(trimItem);
             }
-            int index = count.IndexOf(count.Min())+1;
-            webDriver.FindElement(By.XPath("(//*[@type='checkbox'])["+index+"]")).Click();
+            int index = count.IndexOf(count.Min()) + 1;
+            webDriver.FindElement(By.XPath("(//*[@type='checkbox'])[" + index + "]")).Click();
             Thread.Sleep(2000);
             webDriver.Quit();
-            
+
         }
 
         [TestMethod]
@@ -205,7 +213,7 @@ namespace SeleniumUnitTestLeafPractice
 
             //Click the button to learn line-breaks in an alert.
             webDriver.FindElement(By.XPath("(//*/button)[4]")).Click();
-            string AlertText=webDriver.SwitchTo().Alert().Text;
+            string AlertText = webDriver.SwitchTo().Alert().Text;
             Console.WriteLine(AlertText);
             webDriver.SwitchTo().Alert().Accept();
 
@@ -248,29 +256,29 @@ namespace SeleniumUnitTestLeafPractice
         public void DictionaryMethod1()
         {
             webDriver.Navigate().GoToUrl("http://www.leafground.com/pages/frame.html");
-            IDictionary<string, int> keyValuePairs = new Dictionary<string, int> 
-            { 
+            IDictionary<string, int> keyValuePairs = new Dictionary<string, int>
+            {
                 {"A",1 }, {"B",2 },{"C",3 }, {"D",4 }, {"E",5 },{"F",6 },
                 {"G",7 }, {"H",8 },{"I",9 }, {"J",10 }, {"K",11 }, {"L",12 },
                 {"M",13 }, {"N",14 }, {"O",15 },{"P",16 }, {"Q",17 }, {"R",18 },
                 {"S",19 }, {"T",20 }, {"U",21 }, {"V",22 }, {"W",23 }, {"X",24 },
                 {"Y",25 }, {"Z",26 }
             };
-            
+
 
             int sum = 0;
-            
+
             string InputCharacters = "ZZC";
-            
-            for(int i=0;i<InputCharacters.Length;i++)
+
+            for (int i = 0; i < InputCharacters.Length; i++)
             {
-                if(keyValuePairs.ContainsKey(InputCharacters[i].ToString()))
+                if (keyValuePairs.ContainsKey(InputCharacters[i].ToString()))
                 {
-                    
+
                     int value = keyValuePairs[InputCharacters[i].ToString()];
                     sum = sum + value;
                 }
-                
+
             }
             Console.WriteLine("Total:" + sum);
             webDriver.Quit();
@@ -324,7 +332,7 @@ namespace SeleniumUnitTestLeafPractice
             webDriver.FindElement(By.XPath("(//*/button)[2]")).Submit();
             string childWindow2 = webDriver.WindowHandles[2];
             string childWindow3 = webDriver.WindowHandles[3];
-            Console.WriteLine("Total opened windows:"+webDriver.WindowHandles.Count);
+            Console.WriteLine("Total opened windows:" + webDriver.WindowHandles.Count);
             webDriver.SwitchTo().Window(parentWindow);
 
             //Close all except this window
@@ -341,7 +349,7 @@ namespace SeleniumUnitTestLeafPractice
 
             //Wait for 2 new Windows to open
             webDriver.FindElement(By.XPath("(//button)[4]")).Submit();
-            webDriver.Manage().Timeouts().ImplicitWait=TimeSpan.FromSeconds(5);
+            webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
             string childWindow6 = webDriver.WindowHandles[1];
             string childWindow7 = webDriver.WindowHandles[2];
 
@@ -410,7 +418,7 @@ namespace SeleniumUnitTestLeafPractice
         public void Download()
         {
             webDriver.Navigate().GoToUrl("http://www.leafground.com/pages/download.html");
-            
+
             webDriver.FindElement(By.XPath("(//a[1])[2]")).Click();
             //Thread.Sleep(2000);
             webDriver.FindElement(By.XPath("//a[2]")).Click();
@@ -422,6 +430,122 @@ namespace SeleniumUnitTestLeafPractice
             Thread.Sleep(2000);
             webDriver.Quit();
         }
+
+        [TestMethod]
+        public void Upload()
+        {
+            webDriver.Navigate().GoToUrl("http://www.leafground.com/pages/upload.html");
+            webDriver.FindElement(By.XPath("//input")).SendKeys("C:\\Users\\Priya\\Desktop\\Sample.txt");
+            Thread.Sleep(2000);
+            webDriver.Quit();
+        }
+
+        [TestMethod]
+        public void ToolTip()
+        {
+            webDriver.Navigate().GoToUrl("http://www.leafground.com/pages/tooltip.html");
+            string actualTooltip = webDriver.FindElement(By.Id("age")).GetAttribute("title").ToString();
+            string expectedTooltip = "Enter your Name";
+            Assert.AreEqual(expectedTooltip, actualTooltip);
+            Thread.Sleep(2000);
+            webDriver.Quit();
+        }
+
+        [TestMethod]
+        public void ExplicitWait()
+        {
+            webDriver.Navigate().GoToUrl("http://www.leafground.com/pages/disapper.html");
+            WebDriverWait wait = new WebDriverWait(webDriver, TimeSpan.FromMinutes(1));
+            IWebElement element = wait.Until(driver => driver.FindElement(By.Id("show")));
+            Console.WriteLine(element.Text);
+            webDriver.Quit();
+
+        }
+
+        [TestMethod]
+        public void ExplicitWaitElementAppear()
+        {
+            webDriver.Navigate().GoToUrl("http://www.leafground.com/pages/appear.html");
+            WebDriverWait wait = new WebDriverWait(webDriver, TimeSpan.FromMinutes(1));
+            IWebElement webElement = wait.Until(webDriver => webDriver.FindElement(By.XPath("(//button)[5]")));
+            Console.WriteLine(webElement.Text);
+            webDriver.Quit();
+        }
+
+        [TestMethod]
+        public void ExplicitWaitAlert()
+        {
+            webDriver.Navigate().GoToUrl("http://www.leafground.com/pages/TextChange.html");
+            WebDriverWait driverWait = new WebDriverWait(webDriver, TimeSpan.FromMinutes(1));
+            //driverWait.Until(webDriver => webDriver.FindElement(By.Id("btn"))).Submit();
+            driverWait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//button[contains(text(),'Click ME!')]"))).Submit();
+            Console.WriteLine(webDriver.SwitchTo().Alert().Text.ToString());
+            webDriver.SwitchTo().Alert().Accept();
+            webDriver.Quit();
+        }
+
+
+        [TestMethod]
+        public void ExplicitWaitTillAlertBoxAppear()
+        {
+
+            webDriver.Navigate().GoToUrl("http://www.leafground.com/pages/alertappear.html");
+            webDriver.FindElement(By.Id("alert")).Submit();
+            WebDriverWait wait = new WebDriverWait(webDriver, TimeSpan.FromMinutes(1));
+            wait.Until(ExpectedConditions.AlertIsPresent());
+            Console.WriteLine(webDriver.SwitchTo().Alert().Text.ToString());
+            webDriver.SwitchTo().Alert().Accept();
+            webDriver.Quit();
+        }
+
+        [TestMethod]
+        public void MouseHover()
+        {
+            webDriver.Navigate().GoToUrl("http://www.leafground.com/pages/mouseOver.html#");
+            Actions action = new Actions(webDriver);
+            action.MoveToElement(webDriver.FindElement(By.XPath("(//a)[2]"))).Build().Perform();
+            WebDriverWait webDriverWait = new WebDriverWait(webDriver, TimeSpan.FromMinutes(1));
+            IWebElement webElement = webDriverWait.Until(webDriver => webDriver.FindElement(By.XPath("(//a)[3]")));
+            webElement.Click();
+            Console.WriteLine(webDriver.SwitchTo().Alert().Text.ToString());
+            webDriver.SwitchTo().Alert().Accept();
+            webDriver.Quit();
+        }
+
+        [TestMethod]
+        public void SortTable()
+        {
+            webDriver.Navigate().GoToUrl("http://www.leafground.com/pages/sorttable.html");
+
+            var webElementsBefore = webDriver.FindElements(By.XPath("//td[2]"));
+            List<string> sorted1 = new List<string>();
+
+            foreach (var items in webElementsBefore)
+            {
+                sorted1.Add(items.Text);
+            }
+            sorted1.Sort();
+
+            webDriver.FindElement(By.XPath("(//th)[2]")).Click();
+            var webElementsAfter = webDriver.FindElements(By.XPath("//td[2]"));
+
+            List<string> sorted2 = new List<string>();
+            foreach (var itemss in webElementsAfter)
+            {
+                sorted2.Add(itemss.Text);
+            }
+
+            for (int i = 0; i < sorted1.Count; i++)
+            {
+                if (sorted1[i].Equals(sorted2[i]))
+                {
+                    Console.WriteLine(sorted1[i] +" EQUALS " +sorted2[i]);
+                }
+            }
+
+            webDriver.Quit();
+        }
     }
-}
+    }
+    
 
